@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info:
+  title: Weit e.V. - DiPA - hub-OpenAPI
+  version: 0.1.0
+servers:
+  - url: http://localhost:9080/dipa/hub/0.1
+    description: Development
+paths:
+  /adresse:
+    $ref: "paths/adresse.yml"
+  /status:
+    $ref: "paths/status.yml"

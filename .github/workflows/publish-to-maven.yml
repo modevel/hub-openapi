@@ -1,0 +1,46 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: GitHub CI - Publish to MAVEN
+
+on:
+  release:
+    types:
+      - published
+
+env:
+  NPM_SCOPE: dipa-projekt
+  PROJECT_NAME: hub-openapi
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Convert yml2json
+        run: java -jar openapi-generator-cli-4.3.1.jar generate -g openapi -i openapi/dipa-hub.yml -o generated/openapi
+      # // https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#fromjson
+      - name: Read OpenAPI
+        id: openapi
+        run: |
+          content=`cat generated/openapi/openapi.json | tr -d "\n"`
+          echo "::set-output name=json::$content"
+      - name: Configure Spring
+        run: node configure-spring.js ${{ env.PROJECT_NAME }} ${{fromJson(steps.openapi.outputs.json).info.version}}
+      - name: Generate API
+        run: java -jar openapi-generator-cli-4.3.1.jar generate -g spring -i openapi/dipa-hub.yml -c config/spring.json -o generated/spring
+      - name: Configure maven pom
+        run: node config-maven-pom.js ${{ env.NPM_SCOPE }} ${{ env.PROJECT_NAME }}
+      - name: Publish package
+        run: mvn -B deploy
+        working-directory: generated/spring
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,50 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: GitHub CI - Publish to NPM
+
+on:
+  release:
+    types:
+      - published
+
+env:
+  NPM_SCOPE: dipa-projekt
+  PROJECT_NAME: hub-openapi
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@dipa-projekt"
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Convert yml2json
+        run: java -jar openapi-generator-cli-4.3.1.jar generate -g openapi -i openapi/dipa-hub.yml -o generated/openapi
+      # // https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#fromjson
+      - name: Read OpenAPI
+        id: openapi
+        run: |
+          content=`cat generated/openapi/openapi.json | tr -d "\n"`
+          echo "::set-output name=json::$content"
+      - name: Generate API
+        run: java -jar openapi-generator-cli-4.3.1.jar generate -g typescript-rxjs -i openapi/dipa-hub.yml -o generated/typescript-rxjs
+      - name: Create package.json
+        run: node create-package-json.js dipa-projekt/${{ env.PROJECT_NAME }} ${{fromJson(steps.openapi.outputs.json).info.version}}
+      - name: Publish npm-Package
+        run: |
+          # npm config set @dipa-projekt:registry https://npm.pkg.github.com
+          # npm config set '//npm.pkg.github.com/:_authToken' ${{ secrets.GITHUB_TOKEN }}
+          npm install
+          npm publish
+        working-directory: generated/typescript-rxjs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
