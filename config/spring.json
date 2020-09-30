@@ -4,7 +4,7 @@
   "scmUrl": "https://github.com/DiPA-Projekt/hub-openapi",
   "hideGenerationTimestamp": true,
   "artifactId": "hub-openapi",
-  "artifactVersion": "0.1.7",
+  "artifactVersion": "0.1.8",
   "apiPackage": "online.dipa.hub-openapi",
   "modelPackage": "online.dipa.hub-openapi",
   "interfaceOnly": true
