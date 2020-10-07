@@ -16,7 +16,7 @@ Die Code-Generierung erfolgt mittels des Befehls: `sh generate.sh`
 
 ## API verwenden
 
-Um die API als Abhängigkeit installieren zu können, müssen für die Client-Entwicklung NPM und für die Server-Entwicklung MAVEN eingestellt werden. Die versionierten Artefakte der API sind im GitHub Repository (GitHub Packages) hinterlegt.
+Um die API als Abhängigkeit installieren zu können, müssen für die Client-Entwicklung NPM und für die Server-Entwicklung MAVEN eingestellt werden. Die versionierten Artefakte der API sind im GitHub Repository ([GitHub Packages](https://github.com/orgs/DiPA-Projekt/packages)) hinterlegt.
 
 ### GitHub Auth Token anlegen
 
