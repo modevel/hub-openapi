@@ -15,6 +15,12 @@ Die Code-Generierung erfolgt mittels des Befehls: `sh generate.sh`
 
 Um die API als Abhängigkeit installieren zu können, müssen für die Client-Entwicklung NPM und für die Server-Entwicklung MAVEN eingestellt werden. Die versionierten Artefakte der API sind im GitHub Repository (GitHub Packages) hinterlegt.
 
+### GitHub Auth Token anlegen
+
+Einen `GITHUB_TOKEN` muss jeder Entwickler in seinem Profil erstellen: https://github.com/settings/tokens
+
+![GitHub-Auth-Token](/doc/GitHub-Auth-Token.jpg)
+
 ### NPM konfiguration
 
 ```bash
