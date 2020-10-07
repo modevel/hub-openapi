@@ -1,4 +1,7 @@
-![GitHub CI](https://github.com/DiPA-Projekt/hub-openapi/workflows/GitHub%20CI/badge.svg)
+![GitHub CI - Create a Release](https://github.com/DiPA-Projekt/hub-openapi/workflows/GitHub%20CI%20-%20Create%20a%20Release/badge.svg)
+![GitHub CI - Publish to NPM](https://github.com/DiPA-Projekt/hub-openapi/workflows/GitHub%20CI%20-%20Publish%20to%20NPM/badge.svg)
+![GitHub CI - Publish to MAVEN](https://github.com/DiPA-Projekt/hub-openapi/workflows/GitHub%20CI%20-%20Publish%20to%20MAVEN/badge.svg)
+
 
 # DiPA - hub-OpenAPI
 
